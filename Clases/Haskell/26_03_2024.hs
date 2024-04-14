@@ -238,8 +238,8 @@ evaluar :: Num a => a -> Polinomio a -> a
 --     Suma p q -> evaluar x p + evaluar x q 
 --     Prod p q -> evaluar x p * evaluar x q 
 
-foldPoli :: b -> (a -> b) -> (b -> b -> b) -> (b -> b -> b) -> Polinomio a -> b
 --          cX -> fCte    -> fSuma         -> fProd          -> input       -> res
+foldPoli :: b -> (a -> b) -> (b -> b -> b) -> (b -> b -> b) -> Polinomio a -> b
 foldPoli cX fCte fSuma fProd poli = case poli of 
     X           -> cX  
     Cte k       -> fCte k 

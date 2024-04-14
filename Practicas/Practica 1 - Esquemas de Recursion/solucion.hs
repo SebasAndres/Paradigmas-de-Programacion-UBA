@@ -202,3 +202,112 @@ sumaMat = zipWith (zipWith (+))
 -- en la posición i,j del resultado está el contenido de la posición j,i de la matriz original. Notar que si la
 -- entrada es una lista de N listas, todas de longitud M, la salida debe tener M listas, todas de longitud N.
 -- trasponer :: [[Int]]-> [[Int]]
+trasponer :: [[Int]] -> [[Int]]
+trasponer = foldr (\x recu -> zipWith (:) x recu) (repeat [])
+
+-----------------------------------------------------------------------------------------------------
+-- Ejercicio 10
+generate :: ([a]-> Bool)-> ([a]-> a) -> [a]
+generate stop next = generateFrom stop next []
+
+generateFrom:: ([a]-> Bool)-> ([a]-> a)-> [a]-> [a]
+generateFrom stop next xs | stop xs = init xs
+                        | otherwise = generateFrom stop next (xs ++ [next xs])
+
+-- i) 
+--              stop            z    next(last)   out
+generateBase :: ([a]-> Bool) -> a -> (a -> a) -> [a]
+generateBase stop z next = generateFrom' stop z next [] 
+
+generateFrom':: ([a]-> Bool)-> a -> (a -> a)-> [a]-> [a]
+generateFrom' stop z next xs | stop xs = init xs
+                | otherwise = generateFrom' stop z next (xs ++ [casesIni xs])
+                where casesIni xs = if length xs > 0 then next (last xs) else z
+-- ii)
+factoriales :: Int -> [Int]
+factoriales n = generate (\xs -> length xs == n+1) (\xs -> if length xs > 0 then last xs * (length xs + 1) else 1)
+                         -- stop                   -- next
+
+-- iii) 
+iterateN :: Int-> (a-> a)-> a-> [a]
+iterateN n f x = generateBase (\xs -> length xs == n+1) x (\y -> f y) 
+
+
+-- iv) Redefinir generateFrom usando `iterate` y `takeWhile`
+-- generateFrom'' :: ([a]-> Bool)-> ([a]-> a)-> [a]-> [a]
+-- generateFrom'' stop next xs = takeWhile (not . stop) (iterate . next xs)
+
+-----------------------------------------------------------------------------------------------------
+-- Ejercicio 11
+--  Definir y dar el tipo del esquema de recursión foldNat sobre los naturales. Utilizar el tipo Integer de
+--  Haskell (la función va a estar definida sólo para los enteros mayores o iguales que 0).
+
+--          f(x, recu)            z     n         OUT
+foldNat :: (Integer -> b -> b) -> b -> Integer -> b
+foldNat f z 0 = z
+foldNat f z n = f n (foldNat f z (n-1))
+
+-- Ejemplo de uso: Suma de los primeros n naturales
+-- sumaNat :: Integer -> Integer
+-- sumaNat n = foldNat (+) 0 n
+
+potencia :: Integer -> Integer -> Integer
+potencia n k = foldNat (\x recu -> n*recu) 1 k
+
+-----------------------------------------------------------------------------------------------------
+-- Ejercicio 12
+data Polinomio a = X 
+                    | Cte a 
+                    | Suma (Polinomio a) (Polinomio a) 
+                    | Prod (Polinomio a) (Polinomio a)
+
+foldPoli :: Num b => b -> (b -> b) -> (b -> b -> b) -> (b -> b -> b) -> Polinomio a -> b
+foldPoli cX cCte cSum cProd p = case p of 
+    X		    -> cX
+    Cte c 		-> cCte c
+    Suma p q 	-> cSum (rec p) (rec q)
+    Prod p q 	-> cProd (rec p) (rec q)
+    where rec = foldPoli cX cCte cSum cProd
+
+evaluar :: Num a => a -> Polinomio a -> b
+evaluar n = foldPoli n id (+) (*)
+
+-----------------------------------------------------------------------------------------------------
+-- Ejercicio 13
+data AB a = Nil | Bin (AB a) a (AB a)
+
+-- recursion estructural
+-- foldAB :: b -> (b -> a -> b -> b) -> AB a -> b
+-- foldAB fNil fTree t = case t of 
+--     Nil         -> fNil
+--     (Bin i r d) -> fTree (recu i) r (recu d)
+--     where recu = foldAB fNil fTree 
+
+-- recursion primitiva
+-- recrAB :: (a -> b -> b -> b) -> b -> AB a -> b
+-- recrAB f z Nill = z
+-- recrAB f z (Bin i r d) = f r (recrAB f z i) (recrAB f z d)
+
+esNil :: AB a -> Bool
+esNil t = case t of 
+    Hoja h -> True
+    _ 	-> False
+
+--altura :: AEB a -> Int
+--altura = foldAEB ((+) 1) (\i r d -> if d > i then d+1 else i+1)
+
+-- cantNodos :: AEB a -> Int    
+-- cantNodos = foldAEB (const 1) (\i r d -> i + 1 + d)
+
+-----------------------------------------------------------------------------------------------------
+-- Ejercicio 14
+
+
+-----------------------------------------------------------------------------------------------------
+-- Ejercicio 15
+data AEB a = Hoja a | Bin (AEB a) a (AEB a)
+
+foldAEB :: (a -> b) -> (b -> a -> b -> b) -> AEB a -> b
+foldAEB fHoja fBin (Hoja h)            = fHoja h 
+foldAEB fHoja fBin (Bin izq root der)  = fBin (rec izq) root (rec der)
+        where rec = foldAEB fHoja fBin
