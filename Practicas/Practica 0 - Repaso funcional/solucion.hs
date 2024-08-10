@@ -23,7 +23,7 @@ bisiesto n | mod n 4 == 0 && mod n 100 /= 0 = True
            | mod n 400 == 0 = True
            | otherwise = False
 
---3
+-- 3
 factorial :: Int -> Int
 factorial 0 = 1
 factorial n = n * factorial (n-1)

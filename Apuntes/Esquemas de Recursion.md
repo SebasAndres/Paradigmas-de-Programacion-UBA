@@ -19,3 +19,4 @@ foldl f ac (x:xs) = foldl f (f ac x) xs
 recr f z [] = z
 recr f z (x : xs) = f x xs (recr f z xs)
 ~~~
+ 

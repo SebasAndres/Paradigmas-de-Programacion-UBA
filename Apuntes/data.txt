@@ -1,9 +1,0 @@
-cuando en un caso recursivo usamos al mismo tipo, 
-usamos recursion sobre ese tipo, donde rec e saplicar el fold en el mismo parametro\
-
-foldPersonaje :: (Personaje -> a -> a) -> (a -> Personaje -> Dirección -> a) -> (a -> a) -> Personaje -> a
-foldPersonaje f1 f2 f3 p = case p of
-                  Personaje pos str -> f1 p 
-                  Mueve p' d -> f2 (rec p') p' d
-                  Muere p' -> f3 (rec p')
-                  where rec = foldPersonaje f1 f2 f3

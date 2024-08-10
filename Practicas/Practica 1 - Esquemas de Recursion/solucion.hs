@@ -78,7 +78,7 @@ sumaAlt' = foldl (\recu x -> x - recu) 0
 -- Ejercicio 4
 -- obs: 
 -- concatMap :: (a-> [b])-> [a]-> [b]
-
+ 
 
 -- a) Permutaciones de una lista
 remove :: Eq a => a -> [a] -> [a]
