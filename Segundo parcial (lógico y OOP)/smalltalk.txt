@@ -1,0 +1,69 @@
+##################################################################3
+SmallInteger >> fact
+	|res, m|
+	m := self 
+	m == 0 ifTrue: [ res := 1. ] ifFalse: [ res := (m - 1) fact * m]
+	^ res
+
+// mcm(a,b) = a*b/gcd(a,b)
+SmallInteger >> mcm: aNumber
+    |res|
+    res := (self * aNumber) / (self gcd aNumber)
+    ^res
+
+
+############################################3333
+Object subclass: #Robot
+    instanceVariableNames: `x y`
+    ...
+
+    Robot >> InitWith: aBlock
+        b := aBlock.
+        x := 0.
+        y := 0.
+        ^self.
+
+    Robot class >> newWith: aBlock 
+        |r|
+        r := self new.
+        ^r InitWith: aBlock
+
+    Robot >> avanzar
+        |res|
+        res := b value: x value: y.
+        x := res at:1.
+        y := res at:2.
+        ^ self.
+
+Robot subclass: #Drone
+    instanceVariableNames: `z`
+    ...
+    
+    Drone class >> newWith: aBlock
+        |r|
+        r := super newWith: aBlock.
+        ^r init.
+
+    Drone >> init   
+        z := 0.
+        ^self.
+
+    Drone >> avanzar
+        z<10 ifTrue: [z := z+1].
+        ^super avanzar.
+
+## FORLOOP
+minimo: aBlock
+    | minElement minValue |
+    self do: [:each | 
+        | val |
+        minValue ifNotNil: [
+            (val := aBlock value: each) < minValue ifTrue: [
+                minElement := each.
+                minValue := val]
+            ]
+        ifNil: ["first element"
+            minElement := each.
+            minValue := aBlock value: each].
+    ].
+    ^minElement

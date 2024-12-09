@@ -1,0 +1,22 @@
+Final de noviembre 2024 (plan 2c-2023)
+Tomo Pablo Barenbaum oral
+
+1) Resolución
+   2 afirmaciones en LPO
+  a) Son equivalentes? Alguna implica a la otra? (una implicaba a la otra)
+  b) Demostrar con resolucion la implicacion (me pregunto si se podía usar SLD en ese caso y por qué)
+
+2) Haskell
+  a) Cómo se puede definir fix en haskell
+  b) Escribir foldl con fix sin recursión explícita
+
+3) Calculo lambda
+   a) En calculo lambda, podes hacer algo que se cuelga con fix?
+  b) Escribir algo que se cuelga y mostrar la reducción
+
+4) Javascript
+  Un ejercicio que ya tomó antes, hacer una función que devuelve un iterador
+  b) Hacer un unfold con un iterador
+
+5) Prolog
+   Escribir particiones(+N, +L, -P) que instancia P en todas las formas de particionar L en N listas
