@@ -1,0 +1,18 @@
+
+Preguntas de Jano conforme fueron diciendo hasta ahora:
+- ¿Qué es el paradigma funcional?
+- ¿Qué es el paradigma orientado a objetos?
+- ¿Que 3 sistemas de polimorfismo vimos y cuáles son las diferencias entre ellos?
+- ¿Qué es la semantica denotacional?
+- ¿Qué es la inferencia de tipos?
+- ¿Cuál es la motivación  de agregarle tipos al cálculo lambda?
+- ¿Cómo funciona prolog?
+- ¿Por qué el tipado de calculo lambda se parece al de deduccion natural?
+- ¿Qué es el metodo de resolucion general y el SLD?
+- ¿Por qué en un lenguaje debilmente tipado te puede tirar type error?
+- ¿Qué es el teorema de normalizacion fuerte? 
+- ¿Cómo es el algoritmo de inferencia?
+- Explicar la relacion entre deduccion natural y valuación
+
+- ¿Por qué el tipado del calculo lambda se parecr al de deduccion natural?
+Son parecidos debido a que ambos son sistemas deductivos basados en reglas de prueba las cuales permiten dedicir un secuente a partir de ciertos otros

@@ -1,0 +1,16 @@
+
+1) a) Dar el tipo de una función en Haskell análoga a foldr, pero que tome dos listas y una función que procese las dos. 
+b) Implementar la función. Puede asumirse que las listas tienen la misma longitud. Puede usarse recursión explícita. 
+c) Usar la función para implementar zipWith sin recursión explícita. 
+ 
+2) Supongamos que, en cálculo lambda extendido con naturales, tenemos un algoritmo de inferencia de tipos que consiste en: 
+    1. Reducir el término hasta una forma normal. 
+    2. Si el resultado es un número cualquiera (0, 1, 2, ... representado con succ/pred), entonces el tipo es Nat. Si no, no. 
+¿Funcionaría bien este algoritmo? ¿Por qué o por qué no? Dar ejemplos. 
+ 
+3) Supongamos que extendemos el cálculo lambda con un operador de igualdad == que toma dos parámetros y se escribe de forma prefija, e.g. == 1 2. 
+a) Dar el tipo de este operador y extender el algoritmo de inferencia para tipar términos que lo usen. 
+b) Supongamos que queremos restringir el operador para que sólo pueda tomar elementos que no sean de tipo función. ¿Cómo debería modificarse el algoritmo de inferencia y/o el de Martelli-Montanari? 
+ 
+4) a) Definimos el tamaño de una fórmula de lógica de primer orden como la cantidad de instancias de símbolos de predicado que tiene. Al pasar una fórmula a forma clausal, ¿de qué orden es el crecimiento de su tamaño en función de la cantidad de operadores (&&, ||, ->)? ¿Lineal, cuadrático o exponencial? 
+b) ¿Cuál es la diferencia entre SLD y Prolog? Mostrar un programa y una consulta de Prolog para los que haya al menos una solución, pero Prolog no pueda hallar ninguna.
