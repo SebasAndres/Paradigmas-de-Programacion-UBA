@@ -11,6 +11,6 @@ foldl f ac [] = ac
 foldl f ac (x:xs) = foldl f (f ac x) xs
 
 --Primitiva
+recr :: (a -> [a] -> b -> b) -> b -> [a] -> b
 recr f z [] = z
-recr f z (x : xs) = f x xs (recr f z xs)
- 
+recr f z (x:xs) = f x xs (recr f z xs)
