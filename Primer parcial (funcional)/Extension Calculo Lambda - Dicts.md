@@ -8,7 +8,7 @@ No está validado!!
 $$t := ... | dicc(t,t)$$
 
 ## Términos
-$$M := ... | \{\}_{\sigma,\tau} | add(M,M,M) | \text{case M of } \{\}_{\sigma,\tau} \rightarrow M; add(M,M,M) \rightarrow M | \text{def?(M,M) | get(M,M) | equals(M,M)}$$
+$$M := ... | \{\}_{\sigma,\tau} | add(M,M,M) | \text{case M of } \{\}_{\sigma,\tau} \rightarrow M; add(M,M,M) \rightarrow M | \text{def?(M,M) | get(M,M) | equals(M,M) | removeKey(M,M)}$$
 
 ## Valores
 $$V := ... | \{\}_{\sigma,\tau} | add(V,V,V)$$
@@ -32,17 +32,30 @@ $equals(\{\}_{\sigma,\tau},N) \rightarrow (\text{case N of } \{\}_{\sigma,\tau} 
 
 $equals(Add(K,V,D),N) \rightarrow (\text{case N of } \{\}_{\sigma,\tau} \rightarrow \text{ false; Add K' V' D' } \rightarrow \text{K'=K \&\& equals(V,V') \&\& equals(D,D')})$.
 
+$removeKey(K, \{\}_{\sigma,\tau}) \rightarrow \{\}_{\sigma,\tau}$.
+
+$removeKey(K, Add(K',V',D')) \rightarrow \text{if K=K' then D' else Add(K',V',removeKey(K,D'))}$.
+
+
 ## Reglas de congruencia
 - 3 para $\text{add(M,M,M)}$
 - 2 para $\text{def?(M,M)}$
 - 2 para $\text{get(M,M)}$
 - 1 para $\text{case M of } \{\}_{\sigma,\tau} \rightarrow M; add(M,M,M) \rightarrow M $
 - 2 para $\text{equals(M,M)}$
+- 2 para $\text{removeKey(M,M)}$
 
 ## Extra. Implementación de Dict en Haskell
 ~~~haskell
+-- Estructura
 data Dict = Empty | Add String Dict Dict
 
+-- Para visualizarlo
+instance Show Dict where
+    show Empty = "Empty"
+    show (Add k v d) = "Add " ++ show k ++ " (" ++ show v ++ ") (" ++ show d ++ ")"
+
+-- Esquemas de recursión
 foldDict :: a -> (String -> a -> a -> a) -> Dict -> a
 foldDict cEmpty cAdd t = case t of 
     Empty -> cEmpty
@@ -55,29 +68,18 @@ recrDict cEmpty cAdd t = case t of
     Add k v d -> cAdd k (recu v) (recu d) v d
     where recu = recrDict cEmpty cAdd
 
--- Def: solo busca en en las claves del primer nivel
+-- Cómputo de términos
 def :: String -> Dict -> Bool
-def s = foldDict False (\k rv rd -> s == k || rd) 
-
--- Get: asume que s es una llave en el diccionario pasado
+def s = foldDict False (\k rv rd -> s == k || rd)  -- solo claves del primer nivel
+ 
 get :: String -> Dict -> Dict
 get s = recrDict Empty (\k rv rd v d -> if s==k then v else rd)
 
--- Equals
+removeKey :: String -> Dict -> Dict
+removeKey s = recrDict Empty (\k rv rd v d -> if k==s then rd else Add k rv rd)
+
 equals :: Dict -> Dict -> Bool
-equals d1 d2 = recrDict 
-    (case d2 of Empty -> True; Add _ _ _ -> False)  -- cEmpty
-    (\k1 rv rd v1 sub1 ->                           -- cAdd 
-        case d2 of
-            Empty -> False
-            Add k2 v2 sub2 -> k1 == k2 && equals v1 v2 && equals sub1 sub2
-    ) 
-    d1
-
--- Pd: Usando pattern-matching sale + facil
-equalsPM :: Dict -> Dict -> Bool
-equalsPM Empty Empty = True
-equalsPM (Add s1 v1 d1) (Add s2 v2 d2) = s1 == s2 && equalsPM v1 v2 && equalsPM d1 d2
-equalsPM _ _ = False
-
+equals Empty Empty = True
+equals (Add k1 v1 sub1) d2 = def k1 d2 && equals v1 (get k1 d2) && equals sub1 (removeKey k1 d2)
+equals _ _ = False
 ~~~
