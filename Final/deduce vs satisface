@@ -7,5 +7,4 @@ R |- o dice: Al asumir el conjunto de formluas R, se deduce o.
 
 Pero por el teorema de correcion y completitud es un si y solo si
 
-"Cuando un sistema lógico es tanto correcto como completo, se dice que 
-⊢ y  ⊨ son equivalentes en ese sistema"
+"Cuando un sistema lógico es tanto correcto como completo, se dice que  ⊢ y  ⊨ son equivalentes en ese sistema"
