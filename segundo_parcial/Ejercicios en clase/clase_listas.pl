@@ -5,6 +5,10 @@
 entre(X,Y,X) :- X =< Y.
 entre(X,Y,Z) :- X<Y, X2 is X+1, entre(X2,Y,Z).
 
+% long(+XS, -L)
+long([], 0).
+long([_ | XS], N) :- long(XS, Y), N is Y+1.
+
 % sinRepetidos
 scr([],[]).
 scr([X],[X]).
@@ -12,17 +16,17 @@ scr([X,X|XS],L) :- scr([X|XS], L).
 scr([X,Y|XS],[X|L]) :- X \= Y, scr([Y|XS],L).
 
 % partes de una lista ~ recuerdo cardinalidad 2^N 
-agregar_a_todos(X,[],[]). # elem a agregar, lista original, lista con elem agregado
-agregar_a_todos(E,X,Z) :- X=[X0|XSS], Z=[Z0|ZSS], Z0=[E|X0], agregar_a_todos(E,XSS,ZSS).
-partes([],[]).
-partes([X|XS], Y) :- agregar_a_todos(X, XS, Y).
+% agregar_a_todos(X,[],[]). # elem a agregar, lista original, lista con elem agregado
+% agregar_a_todos(E,X,Z) :- X=[X0|XSS], Z=[Z0|ZSS], Z0=[E|X0], agregar_a_todos(E,XSS,ZSS).
+% partes([],[]).
+% partes([X|XS], Y) :- agregar_a_todos(X, XS, Y).
 
 % solucion clase
-% partes([],[]).
-% partes([X|XS],[X,L]) :- partes(XS,L)
-% partes([X|XS], L) :- partes(XS,L)
+partes([],[]).
+partes([X|XS],[X,L]) :- partes(XS,L)
+partes([X|XS], L) :- partes(XS,L)
 
-% prefijo(L,P) y sufijo(L,P)
+%prefijo(L,P) y sufijo(L,P)
 
 append([],L,L). # agregar a [] L da L
 append([X|L1],L2,[X|L3]) :- append(L1,L2,L3)
